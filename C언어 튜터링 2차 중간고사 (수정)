@@ -1,0 +1,70 @@
+// while for / if switch
+// 학생 수 입력, 한 학생당 3과목 성적 입력, 학생별 총점, 평균, 학점 출력
+
+#include <stdio.h>
+#define Max_STD 100 //맥스값을 잡아서 이 안에서 학생수를 입력했을 때 배열이 돌아갈 수 있도록 실행 
+// 여기에서 Max_STD 값을 메모리 문제로 100으로 잡았지만 실제로는 더 큰 숫자가 들어가도 괜찮음
+// 위의 Max_STD를 사용해서 문제를 해결한것만으로도 꼼수임
+#define No_SUB 3 
+
+int main(void)
+{
+    int stds; //학생수
+    int score[Max_STD][No_SUB]; //학생의 성적이 들어가는 부분
+    int total[Max_STD] = { 0 }; //총점
+    double avg[Max_STD] = { 0 }; //평균
+    char grade[Max_STD]; //학점
+    int i, j; //for or while에 들어갈 변수
+
+
+    printf("학생수를 입력하시오. ");
+    scanf_s("%d", &stds); 
+
+
+    for (i=0; i<stds; i++) { //stds 값 만큼 반복문 실행 i = 학생
+        for (j = 0; j < No_SUB; j++) { //No_SUB 값 만큼 반복문 실행 j = 과목 
+            printf("%d의 %d번 성적을 입력하시오. ", i + 1, j + 1);
+            scanf_s("%d", &score[i][j]); //입력한 값을 배열에 저장 ex) 90이라는 값을 score[1][0] 에 저장한다고 하면 두번째 학생의 첫번째 성적을 저장하는 것
+            total[i] += score[i][j]; // score값이 저장될때마다 totla[i]에 저장
+        }
+        avg[i] = (double)total[i] / No_SUB; //totla[i] 값을 실수형으로 바꿔 No_SUB만큼 나눈 것을 avg[i]에 저장
+    }   
+
+    printf("==================================\n");
+    printf("| 학생 |  총점  |  평균  |  학점  |\n");
+    printf("==================================\n");
+    
+    
+    for (i = 0; i < stds; i++) {
+        printf("| %d | %d | %.2f |", i + 1, total[i], avg[i]); //학생, 총점, 평균 을 출력
+        
+        //스위치문으로 돌릴때 사용
+        switch ((int)avg[i] / 10) //학생의 학점을 계산하기 위한 스위치문
+        {
+        case 10:
+        case 9:
+            grade[i] = 'A';
+            break;
+        case 8:
+            grade[i] = 'B';
+            break;
+        default:
+            grade[i] = 'C';
+            break;
+        } 
+        
+        /* if문으로 돌릴때 사용
+        
+        if (avg[i] >= 90)
+            grade[i] = 'A';
+        else if (avge[i] >= 80)
+            grade[i] = 'B';
+        else
+            grade[i] = 'C';
+        */
+
+        printf(" %c |\n", grade[i]); //학생의 학점 출력 이때 *\n* 중요
+    }
+
+        return 0;
+    }
